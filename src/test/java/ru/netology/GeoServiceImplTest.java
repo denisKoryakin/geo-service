@@ -3,12 +3,18 @@ package ru.netology;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import ru.netology.entity.Country;
 import ru.netology.entity.Location;
 import ru.netology.geo.GeoService;
 import ru.netology.geo.GeoServiceImpl;
+
+import java.util.stream.Stream;
 
 public class GeoServiceImplTest {
 
@@ -22,19 +28,25 @@ public class GeoServiceImplTest {
         System.out.println("All GeoServiceTests completed");
     }
 
+    GeoService sut = new GeoServiceImpl();
+
     @ParameterizedTest
-    @CsvSource({
-            "172.0.32.11, RUSSIA",
-            "96.00.00.00, USA"
-    })
-    public void GeoServiceTest(String ipAdress, String country) {
+    @MethodSource("parametersDefinition")
+    public void GeoServiceTestByIP(String ipAdress, Country expectedCountry) {
 //        arrange
-        GeoService geoServiceImpl = new GeoServiceImpl();
-        Country expectedCountry = Country.valueOf(country);
-        Location location = geoServiceImpl.byIp(ipAdress);
+        GeoServiceImpl geoService = new GeoServiceImpl();
 //        act
-        Country result = location.getCountry();
+        Location result = sut.byIp(ipAdress);
 //        assert
-        Assertions.assertEquals(expectedCountry, result);
+        Assertions.assertEquals(expectedCountry, result != null ? result.getCountry() : null);
+    }
+
+    private static Stream<Arguments> parametersDefinition() {
+        return Stream.of(
+                Arguments.of("172.25.100.100", Country.RUSSIA),
+                Arguments.of("96.168.168.168", Country.USA),
+                Arguments.of("100.0.0.0", null),
+                Arguments.of("255.00.00.00", null)
+        );
     }
 }
