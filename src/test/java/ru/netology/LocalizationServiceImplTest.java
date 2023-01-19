@@ -15,18 +15,18 @@ import java.util.stream.Stream;
 public class LocalizationServiceImplTest {
 
     @BeforeAll
-    public static void BeforeAllTests() {
+    public static void beforeAllTests() {
         System.out.println("All LocalizationServiceTests started");
     }
 
     @AfterAll
-    public static void AfterAllTests() {
+    public static void afterAllTests() {
         System.out.println("All LocalizationServiceTests completed");
     }
 
     @ParameterizedTest
     @MethodSource("parametersDefinition")
-    public void LocalizationServiceTest(Country country, String expectedMessage) {
+    public void localizationServiceTest(Country country, String expectedMessage) {
 //    arrange
         LocalizationService localizationServiceImpl = new LocalizationServiceImpl();
 //    act
@@ -37,7 +37,7 @@ public class LocalizationServiceImplTest {
 
     private static Stream<Arguments> parametersDefinition() {
         return Stream.of(
-                Arguments.of(Country.RUSSIA, "Добро пожаловать"),
+                Arguments.of(Country.RUSSIA, "ДоброПожаловать"),
                 Arguments.of(Country.BRAZIL, "Welcome"),
                 Arguments.of(Country.USA, "Welcome"),
                 Arguments.of(Country.GERMANY, "Welcome")

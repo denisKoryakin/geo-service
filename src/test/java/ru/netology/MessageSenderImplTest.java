@@ -4,32 +4,27 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
-import ru.netology.entity.Country;
 import ru.netology.entity.Location;
 import ru.netology.geo.GeoService;
 import ru.netology.i18n.LocalizationService;
-import ru.netology.i18n.LocalizationServiceImpl;
 import ru.netology.sender.MessageSenderImpl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import static ru.netology.entity.Country.*;
 
 public class MessageSenderImplTest {
 
     @BeforeAll
-    public static void BeforeAllTests() {
+    public static void beforeAllTests() {
         System.out.println("All MessageSendTests started");
     }
 
     @AfterAll
-    public static void AfterAllTests() {
+    public static void afterAllTests() {
         System.out.println("All MessageSendTests completed");
     }
 
@@ -39,7 +34,7 @@ public class MessageSenderImplTest {
             "172.0.32.11, Добро пожаловать",
             "96.00.00.00, Welcome"
     })
-    public void MessageSendTest(String ipAdress, String expectedMessage) {
+    public void messageSendTest(String ipAdress, String expectedMessage) {
 //        arrange
         Map<String, String> headers = new HashMap<>();
         GeoService geoService = Mockito.mock(GeoService.class);

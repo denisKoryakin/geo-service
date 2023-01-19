@@ -7,7 +7,7 @@ public class LocalizationServiceImpl implements LocalizationService {
     public String locale(Country country) {
         switch (country) {
             case RUSSIA:
-                return "Добро пожаловать";
+                return "ДоброПожаловать";
             default:
                 return "Welcome";
         }

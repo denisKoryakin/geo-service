@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.netology.entity.Country;
 import ru.netology.entity.Location;
@@ -19,12 +18,12 @@ import java.util.stream.Stream;
 public class GeoServiceImplTest {
 
     @BeforeAll
-    public static void BeforeAllTests() {
+    public static void beforeAllTests() {
         System.out.println("All GeoServiceTests started");
     }
 
     @AfterAll
-    public static void AfterAllTests() {
+    public static void afterAllTests() {
         System.out.println("All GeoServiceTests completed");
     }
 
@@ -32,9 +31,8 @@ public class GeoServiceImplTest {
 
     @ParameterizedTest
     @MethodSource("parametersDefinition")
-    public void GeoServiceTestByIP(String ipAdress, Country expectedCountry) {
+    public void geoServiceTestByIP(String ipAdress, Country expectedCountry) {
 //        arrange
-        GeoServiceImpl geoService = new GeoServiceImpl();
 //        act
         Location result = sut.byIp(ipAdress);
 //        assert
@@ -48,5 +46,17 @@ public class GeoServiceImplTest {
                 Arguments.of("100.0.0.0", null),
                 Arguments.of("255.00.00.00", null)
         );
+    }
+
+    @Test
+    public void geoServiceTestByCoordinates() {
+//        arrange
+        Class<RuntimeException> excepted = RuntimeException.class;
+        double latitude = 0;
+        double longitude = 0;
+//        act
+        Executable executable = () -> sut.byCoordinates(latitude, longitude);
+//        assert
+        Assertions.assertThrows(excepted, executable);
     }
 }
